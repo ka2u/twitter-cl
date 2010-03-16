@@ -5,12 +5,18 @@ use warnings;
 use lib "./extlib/lib/perl5";
 use AnyEvent::Twitter;
 use Encode;
+use Config::Pit;
+
+my $config = pit_get("twitter", require => {
+    "username" => "username",
+    "password" => "password",
+});
 
 my $cv = AnyEvent->condvar;
 
 my $twitter = AnyEvent::Twitter->new(
-    username => '',
-    password => '',
+    username => $config->{username},
+    password => $config->{password},
     bandwidth => 0.35,
 );
 
